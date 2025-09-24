@@ -10,6 +10,7 @@ namespace frame{
         int splitY;
         char[50] name;
         int numImgs = (sizeX / splitX) * (sizeY / splitY);
+        std::string file;
     }
     class sprite{
         public:
