@@ -1,25 +1,34 @@
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
 class texture{
   public:
-  Texture(const std::string& filePath);
-  Texture(int width, int height, const std::vector<RGBColor>& pixelData);
-  ~Texture();
+  texture(fs::path);
+  texture(int width, int height, const std::vector<RGBColor>& pixelData);
+  ~texture();
   
-  Color getPixel(float u, float v) const;
-  Color getPixel(int x, int y) const;
+  RGBColor getPixel(float u, float v) const;
+  RGBColor getPixel(int x, int y) const;
 
   int getWidth() const { return m_width; }
   int getHeight() const { return m_height; }
+
+  void loadImage(fs::path);
 
   private:
   int m_width;
   int m_height;
   std::vector<RGBColor> m_pixels;
-  void loadImage(const std::string& filePath);
 }
 
 class obj{
+  public:
   int verticies;
   std::array<vector3, verticies> vertexPosData;
   texture objTexture;
 
+  obj(int vertex, array<vector3, vertex> vertexData, &texture Texture){vertex(verticies), vertexData(vertexPosData), Texture(objTexture)};
 }
+
+obj camera(1, {vector3(0, 0, 0)}, null);
