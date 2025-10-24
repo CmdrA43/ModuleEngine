@@ -1,0 +1,2 @@
+**WORK IN PROGRESS**
+ModuleEngine is a Windows based library which handles graphics, application instance, sound, and more. It comes as a base that opens a Windows application and you can get different graphics packs and other game features from a barebones physics handler to full customizable inventory systems. It has different levels of graphics, ranging from using the win32 API to a custom graphics API to maybe DX12 one day.
