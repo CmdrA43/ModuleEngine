@@ -18,3 +18,4 @@ namespace frame{
         char[50] state;
     }
 }
+#endif SPRITE_H
