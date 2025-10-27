@@ -59,3 +59,60 @@ void boundsCheckBatch(const Camera& camera, const vector3* points, int count, bo
         results[i] = boundsCheck(camera, points[i]);
     }
 }
+
+bool boundsCheckUltra(const Camera& camera, const vector3& point) {
+    // Manual expansion for maximum speed
+    float dx = point.x - camera.position.x;
+    float dy = point.y - camera.position.y;
+    float dz = point.z - camera.position.z;
+    
+    // Manual dot products
+    float camZ = dx * camera.forward.x + dy * camera.forward.y + dz * camera.forward.z;
+    if (camZ < camera.nearZ) return false;
+    
+    float camX = dx * camera.right.x + dy * camera.right.y + dz * camera.right.z;
+    float camY = dx * camera.up.x + dy * camera.up.y + dz * camera.up.z;
+    
+    float boundX = camera.tanHalfFovX * camZ;
+    float boundY = camera.tanHalfFovY * camZ;
+    
+    return (camZ <= camera.farZ) && 
+           (fabsf(camX) <= boundX) && 
+           (fabsf(camY) <= boundY);
+}
+
+// Ultra-optimized batch processing
+void boundsCheckBatchUltra(const Camera& camera, const vector3* points, int count, bool* results) {
+    // Pre-load camera values (helps compiler optimization)
+    const vector3& pos = camera.position;
+    const vector3& right = camera.right;
+    const vector3& up = camera.up;
+    const vector3& forward = camera.forward;
+    const float nearZ = camera.nearZ;
+    const float farZ = camera.farZ;
+    const float tanHalfFovX = camera.tanHalfFovX;
+    const float tanHalfFovY = camera.tanHalfFovY;
+    
+    for (int i = 0; i < count; ++i) {
+        const vector3& point = points[i];
+        float dx = point.x - pos.x;
+        float dy = point.y - pos.y;
+        float dz = point.z - pos.z;
+        
+        float camZ = dx * forward.x + dy * forward.y + dz * forward.z;
+        if (camZ < nearZ) {
+            results[i] = false;
+            continue;
+        }
+        
+        float camX = dx * right.x + dy * right.y + dz * right.z;
+        float camY = dx * up.x + dy * up.y + dz * up.z;
+        
+        float boundX = tanHalfFovX * camZ;
+        float boundY = tanHalfFovY * camZ;
+        
+        results[i] = (camZ <= farZ) && 
+                    (fabsf(camX) <= boundX) && 
+                    (fabsf(camY) <= boundY);
+    }
+}
