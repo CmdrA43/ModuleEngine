@@ -16,10 +16,10 @@ void updateCameraBasis(Camera& camera, float yaw, float pitch, float roll) {
     
     // Compute right vector
     vector3 worldUp(0.0f, 1.0f, 0.0f);
-    camera.right = camera.forward.cross(worldUp).normalize();
+    camera.right = camera.forward.cross(worldUp).fastNormalize();
     
     // Compute up vector
-    camera.up = camera.right.cross(camera.forward).normalize();
+    camera.up = camera.right.cross(camera.forward).fastNormalize();
 }
 
 void setCameraFrustum(Camera& camera, float fovXDegrees, float aspectRatio, float nearPlane, float farPlane) {
