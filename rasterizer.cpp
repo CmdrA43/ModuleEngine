@@ -1,4 +1,4 @@
-//camera rotation should be the sin and cos of the unit vector for x and y in radians
+//camera rotation should be a unit vector of direction
 
 bool vertBoundChecks(obj camera, vector3 point){
   vector3 dir = camera.rotation.normalize();
