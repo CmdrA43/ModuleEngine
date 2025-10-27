@@ -2,7 +2,7 @@
 
 bool vertBoundChecks(obj camera, vector3 point){
   vector3 dir = camera.rotation.normalize();
-  if((((point.y * dir.y) + (point.x * dir.x)) * 0.588002604) > point.z && (((point.y * dir.y) + (point.x * dir.x)) * -0.588002604) < point.z){
+  if((((point.y * dir.y) + (point.x * dir.x)) * (0.588002604 + camera.rotation.z)) > point.z && (((point.y * dir.y) + (point.x * dir.x)) * (-0.588002604 + camera.rotation.z)) < point.z){
     return true;
   }
   return false;
